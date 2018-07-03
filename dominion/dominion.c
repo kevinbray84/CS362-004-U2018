@@ -730,7 +730,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   switch( card ) 
     {
     case adventurer:
-      playAdventurer(state);
+      return playAdventurer(state);
 			
     case council_room:
       //+4 Cards
@@ -875,7 +875,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 		
     case smithy:
       //+3 Cards
-      playSmithy(state, handPos);
+      return playSmithy(state, handPos);
 		
     case village:
       //+1 Card
