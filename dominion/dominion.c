@@ -647,7 +647,7 @@ int getCost(int cardNumber)
 int playSmithy(struct gameState *state, int handPos)
 {
   int currentPlayer = whoseTurn(state);
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 2; i++)
   {
     drawCard(currentPlayer, state);
   }
