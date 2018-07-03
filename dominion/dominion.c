@@ -743,7 +743,7 @@ int playCouncilRoom(struct gameState *state, int handPos)
   int currentPlayer = whoseTurn(state);
   
   //+4 Cards
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 2; i++) {
     drawCard(currentPlayer, state);
   }
 
