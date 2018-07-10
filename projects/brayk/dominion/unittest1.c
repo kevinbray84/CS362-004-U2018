@@ -14,8 +14,6 @@ int main (int argc, char** argv)
     int numVictoryCard = 8;
     int seed = 1000;
     int numPlayers = 2;
-    int thisPlayer = 0;
-	int thatPlayer = 1;
 	struct gameState G, testG;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
@@ -24,7 +22,8 @@ int main (int argc, char** argv)
 	initializeGame(numPlayers, k, seed, &G);
 
 	// ----------- TEST 1: Check all supply counts during initial state --------------
-	printf("TEST 1: Check all supply counts during initial state\n");
+	printf("********* Testing supplyCount() *********\n");
+    printf("TEST 1: Check all supply counts during initial state\n");
 
     printf("*** Victory Cards: Expected == Actual ***\n");
     printf("estate: %d == %d:         ", numVictoryCard, supplyCount(estate, &G));
