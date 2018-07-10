@@ -22,7 +22,7 @@ int main (int argc, char** argv)
 	initializeGame(numPlayers, k, seed, &G);
 
 	// ----------- TEST 1: Check all supply counts during initial state --------------
-	printf("********* Testing supplyCount() *********\n");
+	printf("********* Testing supplyCount(): Expected == Actual? *********\n");
     printf("TEST 1: Check all supply counts during initial state\n");
 
     printf("*** Victory Cards: Expected == Actual ***\n");
