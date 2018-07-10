@@ -16,7 +16,7 @@ int main (int argc, char** argv)
     int numPlayers = 2;
     int thisPlayer = 0;
 	int thatPlayer = 1;
-	struct gameState G;
+	struct gameState G, testG;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
 
@@ -58,9 +58,10 @@ int main (int argc, char** argv)
 
 	// ----------- TEST 2: Check after buying a card --------------
 	printf("TEST 1: Check after buying a card\n");
-    buyCard(embargo, &G);
-    printf("embargo: %d == %d:   ", numKingdomCards - 1, supplyCount(embargo, &G));
-    assertTrue(numKingdomCards - 1 == supplyCount(embargo, &G));
+    memcpy(&testG, &G, sizeof(struct gameState));
+    buyCard(embargo, &testG);
+    printf("embargo: %d == %d:        ", supplyCount(embargo, &G) - 1, supplyCount(embargo, &testG));
+    assertTrue(supplyCount(embargo, &G) - 1 == supplyCount(embargo, &testG));
 
     return 0;
 }
