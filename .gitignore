@@ -13,3 +13,6 @@ projects/brayk/dominion/player
 *.gcno
 cardtest*
 unittest*
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/settings.json
