@@ -5,6 +5,18 @@
 #include <math.h>
 #include <stdlib.h>
 
+void assertTrue(int val)
+{
+	if (val)
+	{
+		printf("PASSED\n");
+	}
+	else
+	{
+		printf("FAILED\n");
+	}
+}
+
 int compare(const void* a, const void* b) {
   if (*(int*)a > *(int*)b)
     return 1;
