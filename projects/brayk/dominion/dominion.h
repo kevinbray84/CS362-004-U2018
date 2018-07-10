@@ -130,4 +130,12 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 
 void assertTrue(int val);
 
+// refactord cardEffect functions
+int playSmithy(struct gameState *state, int handPos);
+int playAdventurer(struct gameState *state);
+int playRemodel(struct gameState *state, int handPos, int choice1, int choice2);
+int playSeaHag(struct gameState *state);
+int playCouncilRoom(struct gameState *state, int handPos);
+
+
 #endif
