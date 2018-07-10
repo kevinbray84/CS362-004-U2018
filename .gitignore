@@ -16,3 +16,4 @@ unittest*
 .vscode/tasks.json
 .vscode/launch.json
 .vscode/settings.json
+projects/brayk/dominion/dominion.c.gcov
