@@ -51,7 +51,7 @@ int main (int argc, char** argv)
 	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
 	
 	printf("deck count = %d, expected = %d: ", testG.deckCount[thisPlayer], G.deckCount[thisPlayer] - newCards);
-	assertTrue(testG.handCount[thisPlayer] == G.handCount[thisPlayer] + newCards);
+	assertTrue(testG.deckCount[thisPlayer] == G.deckCount[thisPlayer] + newCards);
 	
 
 	// ----------- TEST 3: Verify no change to other player --------------
@@ -65,7 +65,7 @@ int main (int argc, char** argv)
 	assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer]);
 
 	printf("other player deck count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
-	assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer]);
+	assertTrue(testG.deckCount[thatPlayer] == G.deckCount[thatPlayer]);
 
 	// ----------- TEST 4: Verify no change to victory card pile --------------
 	printf("TEST 4: Verify no change to victory card piles\n");
