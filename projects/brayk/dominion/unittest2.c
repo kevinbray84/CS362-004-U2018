@@ -13,6 +13,7 @@ int main (int argc, char** argv)
     int initialHandCards = 5;
     int seed = 1000;
     int numPlayers = 2;
+    int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0;
 	struct gameState G, testG;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
@@ -30,7 +31,7 @@ int main (int argc, char** argv)
 	// ----------- TEST 2: Check after playing a smithy --------------
 
     memcpy(&testG, &G, sizeof(struct gameState));
-    playSmithy(&testG, 1);
+	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
     printf("After smithy: %d == %d:       ", numHandCards(&G) + 3, numHandCards(&testG));
     assertTrue(numHandCards(&G) + 3 == numHandCards(&testG));
 
