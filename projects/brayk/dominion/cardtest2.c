@@ -76,7 +76,7 @@ int main (int argc, char** argv)
 	assertTrue(testNumTreasure == numTreasure + newCards);
 
 	// ----------- TEST 3: Check that there is no change to player 2's hand --------------
-	printf("TEST 2: Check that there is no change to player 2's hand\n");
+	printf("TEST 3: Check that there is no change to player 2's hand\n");
 
     // copy the game state to a test case
 	memcpy(&testG, &G, sizeof(struct gameState));
