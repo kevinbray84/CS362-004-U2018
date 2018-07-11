@@ -49,6 +49,9 @@ int main (int argc, char** argv)
     printf("TEST 3: Check when kingdom cards are empty\n");
     memcpy(&testG, &G, sizeof(struct gameState));
 
+    printf("%2d of 10 kingdom decks empty.  0 == %d?  ", 0, isGameOver(&testG));
+    assertTrue(0 == isGameOver(&testG));
+
     for (int i = 0; i < 10; i++)
     {
         testG.supplyCount[i] = 0;
