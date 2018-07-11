@@ -41,8 +41,6 @@ int main (int argc, char** argv)
 	printf("hand count = %d, expected = %d: ", testG.handCount[thisPlayer], G.handCount[thisPlayer] + newCards);
 	assertTrue(testG.handCount[thisPlayer] == G.handCount[thisPlayer] + newCards);
 
-
-
 	// ----------- TEST 2: Deck size reduced by 3 cards --------------
 	printf("TEST 2: Deck size reduced by 3 cards\n");
 	
@@ -91,30 +89,7 @@ int main (int argc, char** argv)
 		assertTrue(G.supplyCount[k[i]] == testG.supplyCount[k[i]]);
 	}
 
-
-	printf("\n >>>>> SUCCESS: Testing complete %s <<<<<\n\n", TESTCARD);
-
-
-// 	struct gameState {
-//   int numPlayers; //number of players
-//   int supplyCount[treasure_map+1];  //this is the amount of a specific type of card given a specific number.
-//   int embargoTokens[treasure_map+1];
-//   int outpostPlayed;
-//   int outpostTurn;
-//   int whoseTurn;
-//   int phase;
-//   int numActions; /* Starts at 1 each turn */
-//   int coins; /* Use as you see fit! */
-//   int numBuys; /* Starts at 1 each turn */
-//   int hand[MAX_PLAYERS][MAX_HAND];
-//   int handCount[MAX_PLAYERS];
-//   int deck[MAX_PLAYERS][MAX_DECK];
-//   int deckCount[MAX_PLAYERS];
-//   int discard[MAX_PLAYERS][MAX_DECK];
-//   int discardCount[MAX_PLAYERS];
-//   int playedCards[MAX_DECK];
-//   int playedCardCount;
-// };
+	printf("\n >>>>> %s testing complete <<<<<\n\n", TESTCARD);
 
 	return 0;
 }
