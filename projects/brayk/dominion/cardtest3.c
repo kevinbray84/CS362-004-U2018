@@ -11,7 +11,7 @@
 
 int main (int argc, char** argv)
 {
-    int newCards = 2;
+    int newCards = 4;
     int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0;
     int seed = 1000;
     int numPlayers = 2;
@@ -27,92 +27,69 @@ int main (int argc, char** argv)
 
 	printf("----------------- Testing Card: %s ----------------\n", TESTCARD);
 
-    // check that other player's deck size is +2 (discard and curse)
-    // check that the top of their deck is a curse
-    // check no chagne to this player
+    // check that player hand is +4
+	// check that player has +1 buy
+	// check +1 draw to other player
+	// check no change to victory card pile
+	// chekc no change to kingdom card pile
 
-	// ----------- TEST 1: check that other player's net deck size is the same --------------
-	printf("TEST 1: check that other player's net deck size is the same\n");
+		// ----------- TEST 1: Gain 3 cards --------------
+	printf("TEST 1: Gain 4 cards\n");
 
 	// copy the game state to a test case
-    G.handCount[thatPlayer] = 5;
 	memcpy(&testG, &G, sizeof(struct gameState));
-//    testG.handCount[thatPlayer] = 5;
 	cardEffect(council_room, choice1, choice2, choice3, &testG, handpos, &bonus);
-    
 
-	printf("hand count = %d, expected = %d: ", testG.handCount[thatPlayer], G.handCount[thatPlayer]);
-	assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer]);
+	printf("hand count = %d, expected = %d: ", testG.handCount[thisPlayer], G.handCount[thisPlayer] + newCards - 1);
+	assertTrue(testG.handCount[thisPlayer] == G.handCount[thisPlayer] + newCards - 1);
 
-    printf("deck count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
-	assertTrue(testG.deckCount[thatPlayer] == G.deckCount[thatPlayer]);
+	// ----------- TEST 2: Deck size reduced by 4 cards --------------
+	printf("TEST 2: Deck size reduced by 4 cards\n");
+	
+	// copy the game state to a test case
+	memcpy(&testG, &G, sizeof(struct gameState));
+	cardEffect(council_room, choice1, choice2, choice3, &testG, handpos, &bonus);
+	
+	printf("deck count = %d, expected = %d: ", testG.deckCount[thisPlayer], G.deckCount[thisPlayer] - newCards);
+	assertTrue(testG.deckCount[thisPlayer] == G.deckCount[thisPlayer] - newCards);
 
-	// ----------- TEST 2: The two new cards are treasure cards --------------
-	printf("TEST 2: Check that the new cards are treasures\n");
 
-	// // copy the game state to a test case
-	// memcpy(&testG, &G, sizeof(struct gameState));
-	// cardEffect(adventurer, choice1, choice2, choice3, &testG, handpos, &bonus);
+	// ----------- TEST 3: Check that there is one more card in player 2's hand and 1 less in deck --------------
+	printf("TEST 3: Check that there is one more card in player 2's hand and 1 less in deck\n");
 
-    // // get previous number of treasures
-    // for (int i = 0; i < numHandCards(&G); i++)
-    // {
-    //     testCard = handCard(i, &testG);
-    //     if (testCard == copper || testCard == silver || testCard == gold)
-    //     {
-    //         numTreasure++;
-    //     }
-    // }
+    // copy the game state to a test case
+	memcpy(&testG, &G, sizeof(struct gameState));
+	cardEffect(council_room, choice1, choice2, choice3, &testG, handpos, &bonus);
 
-    // // get new number of treasrues
-    // for (int i = 0; i < numHandCards(&testG); i++)
-    // {
-    //     testCard = handCard(i, &testG);
-    //     if (testCard == copper || testCard == silver || testCard == gold)
-    //     {
-    //         testNumTreasure++;
-    //     }
-    // }
+	printf("other player hand count = %d, expected = %d: ", testG.handCount[thatPlayer], G.handCount[thatPlayer] + 1);
+	assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer] + 1);
 
-	// printf("num treasures = %d, expected = %d: ", testNumTreasure, numTreasure + newCards);
-	// assertTrue(testNumTreasure == numTreasure + newCards);
+	printf("other player deck count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer] - 1);
+	assertTrue(testG.deckCount[thatPlayer] == G.deckCount[thatPlayer] - 1);
 
-	// // ----------- TEST 3: Check that there is no change to player 2's hand --------------
-	// printf("TEST 2: Check that there is no change to player 2's hand\n");
+	// ----------- TEST 4: Verify no change to victory card pile --------------
+	printf("TEST 4: Verify no change to victory card piles\n");
 
-    // // copy the game state to a test case
-	// memcpy(&testG, &G, sizeof(struct gameState));
-	// cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
+	// copy the game state to a test case
+	memcpy(&testG, &G, sizeof(struct gameState));
+	cardEffect(council_room, choice1, choice2, choice3, &testG, handpos, &bonus);
 
-	// printf("other player hand count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
-	// assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer]);
+	printf("Verifying no change to victory card piles...\n");
+	printf("%d estates before == %d estates after: ", G.supplyCount[estate], testG.supplyCount[estate]);
+	assertTrue(G.supplyCount[estate] == testG.supplyCount[estate]);
+	printf("%d duchies before == %d duchies after: ", G.supplyCount[duchy], testG.supplyCount[duchy]);
+	assertTrue(G.supplyCount[duchy] == testG.supplyCount[duchy]);
+	printf("%d provinces before == %d provinces after: ", G.supplyCount[province], testG.supplyCount[province]);
+	assertTrue(G.supplyCount[province] == testG.supplyCount[province]);
 
-	// printf("other player deck count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
-	// assertTrue(testG.deckCount[thatPlayer] == G.deckCount[thatPlayer]);
-
-	// // ----------- TEST 4: Verify no change to victory card pile --------------
-	// printf("TEST 4: Verify no change to victory card piles\n");
-
-	// // copy the game state to a test case
-	// memcpy(&testG, &G, sizeof(struct gameState));
-	// cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
-
-	// printf("Verifying no change to victory card piles...\n");
-	// printf("%d estates before == %d estates after: ", G.supplyCount[estate], testG.supplyCount[estate]);
-	// assertTrue(G.supplyCount[estate] == testG.supplyCount[estate]);
-	// printf("%d duchies before == %d duchies after: ", G.supplyCount[duchy], testG.supplyCount[duchy]);
-	// assertTrue(G.supplyCount[duchy] == testG.supplyCount[duchy]);
-	// printf("%d provinces before == %d provinces after: ", G.supplyCount[province], testG.supplyCount[province]);
-	// assertTrue(G.supplyCount[province] == testG.supplyCount[province]);
-
-	// // ----------- TEST 5: Verify no change to kingdom card pile --------------
-	// for (int i = 0; i < 10; i++)
-	// {
-	// 	// cardNumToName(k[i], cardName);
-	// 	// printf("%d %s before == %d %s after: ", G.supplyCount[k[i]], cardName, G.supplyCount[k[i]], cardName);
-	// 	printf("%d Kingdom card %d before == %d kingdom card %d after: ", G.supplyCount[k[i]], i, G.supplyCount[k[i]], i);
-	// 	assertTrue(G.supplyCount[k[i]] == testG.supplyCount[k[i]]);
-	// }
+	// ----------- TEST 5: Verify no change to kingdom card pile --------------
+	for (int i = 0; i < 10; i++)
+	{
+		// cardNumToName(k[i], cardName);
+		// printf("%d %s before == %d %s after: ", G.supplyCount[k[i]], cardName, G.supplyCount[k[i]], cardName);
+		printf("%d Kingdom card %d before == %d kingdom card %d after: ", G.supplyCount[k[i]], i, G.supplyCount[k[i]], i);
+		assertTrue(G.supplyCount[k[i]] == testG.supplyCount[k[i]]);
+	}
 
 	return 0;
 }
