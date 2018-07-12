@@ -713,7 +713,7 @@ int playRemodel(struct gameState *state, int handPos, int choice1, int choice2)
   int trashedCardCost = getCost(state->hand[currentPlayer][choice1]);
   int gainCardCost = getCost(choice2);
 
-  if (trashedCardCost + 0 <= gainCardCost)
+  if (trashedCardCost + 0 < gainCardCost)
   {
       return -1;
   }
