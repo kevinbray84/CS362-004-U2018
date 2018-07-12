@@ -12,14 +12,14 @@
 int main (int argc, char** argv)
 {
     int trashedCost = 0;
-    int buyResult = 0;
+    int ceResult = 0;
     int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0;
     int seed = 1000;
     int numPlayers = 2;
     int thisPlayer = 0;
 	int thatPlayer = 1;
 	struct gameState G, testG;
-	int k[10] = {adventurer, embargo, remodel, minion, mine, cutpurse,
+	int k[10] = {adventurer, embargo, remodel, minion, great_hall, cutpurse,
 			sea_hag, tribute, smithy, council_room};
 	//char cardName[16];
 
@@ -61,7 +61,7 @@ int main (int argc, char** argv)
 
     // copy the game state to a test case
 	memcpy(&testG, &G, sizeof(struct gameState));
-	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
+	cardEffect(remodel, choice1, choice2, choice3, &testG, handpos, &bonus);
 
 	printf("other player hand count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
 	assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer]);
@@ -73,27 +73,49 @@ int main (int argc, char** argv)
 	// ----------- TEST 4: test that you can gain a card costing 2 more than it --------------
 	printf("TEST 4: test that you can gain a card costing 2 more than it\n");
 
-    trashedCost = getCost(handCard(choice1, &G)); 
+    // copy the game state to a test case
+	memcpy(&testG, &G, sizeof(struct gameState));
+	
+	choice1 = 0;  // card 0 is copper, which costs 0
+	choice2 = 1;  // card 1 is embargo, which costs 2
+	ceResult = cardEffect(remodel, choice1, choice2, choice3, &testG, handpos, &bonus);
+
+	printf("Attempting to gain card that costs 2 more than trashed card: ");
+    if (ceResult < 0)
+    {
+        printf("FAILED\n");
+    }
+    else
+    {
+        printf("PASSED\n");        
+    }
+
+	// ----------- TEST 5: test that you can gain a card costing 3 more than it --------------
+	printf("TEST 5: test that you can gain a card costing 3 more than it\n");
+
+    //trashedCost = getCost(handCard(choice1, &G)); 
     //printf("trashed card: %d, cost: %d\n", handCard(choice1, &G), trashedCost);
 
 
     // copy the game state to a test case
 	memcpy(&testG, &G, sizeof(struct gameState));
-	cardEffect(remodel, choice1, choice2, choice3, &testG, handpos, &bonus);
-    buyResult = buyCard(1, &testG);    // card 1 is embargo, which costs 2
+	
+	choice1 = 0;  // card 0 is copper, which costs 0
+	choice2 = 5;  // card 5 is great_hall, which costs 3
+	ceResult = cardEffect(remodel, choice1, choice2, choice3, &testG, handpos, &bonus);
 
-
-    if (buyResult < 0)
+	printf("Attempting to gain card that costs 3 more than trashed card: ");
+    if (ceResult < 0)
     {
-        printf("buy unsuccessful\n");
+        printf("PASSED\n");   // expected value is taht you can't buy it, so this is a pass
     }
     else
     {
-        printf("buy successful\n");        
+        printf("FAILED\n");   // expected result is that you can't buy it, so this is a fail
     }
 
 	// ----------- TEST 5: Verify no change to victory card pile --------------
-	printf("TEST 5: Verify no change to victory card piles\n");
+	printf("TEST 6: Verify no change to victory card piles\n");
 
 	// copy the game state to a test case
 	memcpy(&testG, &G, sizeof(struct gameState));
