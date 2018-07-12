@@ -112,5 +112,7 @@ int main (int argc, char** argv)
 		assertTrue(G.supplyCount[k[i]] == testG.supplyCount[k[i]]);
 	}
 
+	printf("\n >>>>> %s testing complete <<<<<\n\n", TESTCARD);
+
 	return 0;
 }

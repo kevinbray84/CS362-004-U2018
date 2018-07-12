@@ -128,5 +128,7 @@ int main (int argc, char** argv)
 	printf("%d provinces before == %d provinces after: ", G.supplyCount[province], testG.supplyCount[province]);
 	assertTrue(G.supplyCount[province] == testG.supplyCount[province]);
 
+	printf("\n >>>>> %s testing complete <<<<<\n\n", TESTCARD);
+
 	return 0;
 }
