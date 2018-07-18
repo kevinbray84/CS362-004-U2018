@@ -14,7 +14,7 @@ char *inputString()
     static char str[STRLEN];
     for (int i = 0; i < STRLEN - 1; i++)
     {
-      str[i] = (char)(rand() % 26 + 97);  // only use lowercase characters (26 chars, offset by 97)
+      str[i] = (char)(rand() % 16 + 101);  // only use lowercase characters (16 chars between e and t, offset by 101 to start at e)
     }
     str[STRLEN - 1] = '\0';
     return str;
