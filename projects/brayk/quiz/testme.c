@@ -6,24 +6,17 @@
 
 char inputChar()
 {
-    int val = rand() % 95 + 32;  // num printable ascii chars: 95, add 32 to offset past control chars
-    // if (val < 32 || val > 126)
-    // {
-    //   printf("%d\n", val);
-    // }
-    //printf("%c\n", (char)val);
-    return (char)val;
+    return (char)(rand() % 95 + 32); // num printable ascii chars: 95, add 32 to offset past control chars
 }
 
 char *inputString()
 {
-    char str[STRLEN];
+    static char str[STRLEN];
     for (int i = 0; i < STRLEN - 1; i++)
     {
-      str[i] = (char)(rand() % 26 + 97); 
+      str[i] = (char)(rand() % 26 + 97);  // only use lowercase characters (26 chars, offset by 97)
     }
     str[STRLEN - 1] = '\0';
-    // printf("%s\n", str);
     return str;
 }
 
