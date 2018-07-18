@@ -2,6 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<time.h>
+#define STRLEN 6
 
 char inputChar()
 {
@@ -16,8 +17,14 @@ char inputChar()
 
 char *inputString()
 {
-    // TODO: rewrite this function
-    return "";
+    char str[STRLEN];
+    for (int i = 0; i < STRLEN - 1; i++)
+    {
+      str[i] = (char)(rand() % 26 + 97); 
+    }
+    str[STRLEN - 1] = '\0';
+    // printf("%s\n", str);
+    return str;
 }
 
 void testme()
@@ -50,7 +57,7 @@ void testme()
        && s[4] == 't' && s[5] == '\0'
        && state == 9)
     {
-      printf("error ");
+      printf("error at iteration %d ", tcCount);
       exit(200);
     }
   }

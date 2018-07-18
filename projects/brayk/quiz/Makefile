@@ -8,4 +8,4 @@ test: testme.c
 	gcov testme.c -b
 
 clean:
-	rm -f testme
+	rm -f testme testme.gcno testme.c.gcov testme.gcda
