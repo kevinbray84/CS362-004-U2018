@@ -87,6 +87,7 @@ protected void setUp() {
       assertTrue(urlVal.isValid("http://www.google.com/"));
       int statusPerLine = 60;
       int printed = 0;
+      int count = 0;
       if (printIndex)  {
          statusPerLine = 6;
       }
@@ -98,7 +99,19 @@ protected void setUp() {
             ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];
             testBuffer.append(part[index].item);
             expected &= part[index].valid;
+
          }
+//     	System.out.print(count);
+//      	System.out.print(": ");
+//         for (int i = 0; i < testPartsIndex.length; ++i)
+//         {
+
+//         	System.out.print(testPartsIndex[i]);
+//         	System.out.print(" - ");
+//         }
+//       	System.out.println(testPartsIndextoString());
+//     	System.out.println("");
+         
          String url = testBuffer.toString();
          boolean result = urlVal.isValid(url);
          if(result == true)
@@ -120,10 +133,13 @@ protected void setUp() {
                printed = 0;
             }
          }
+         count++;
       } while (incrementTestPartsIndex(testPartsIndex, testObjects));
       if (printStatus) {
          System.out.println();
       }
+      System.out.println(count);
+
    }
 
    public void testValidator202() {
@@ -207,7 +223,7 @@ protected void setUp() {
                                new ResultPair("http:", false),
                                new ResultPair("http/", false),
                                new ResultPair("://", false),
-                               new ResultPair("", true)};
+                               new ResultPair("asdf", true)};
 
    ResultPair[] testUrlAuthority = {new ResultPair("www.google.com", true),
                                   new ResultPair("go.com", true),
@@ -221,7 +237,7 @@ protected void setUp() {
                                   new ResultPair("1.2.3", false),
                                   new ResultPair(".1.2.3.4", false),
                                   new ResultPair("go.a", false),
-                                 new ResultPair("go.a1a", false),
+                                  new ResultPair("go.a1a", false),
                                   new ResultPair("go.1aa", false),
                                   new ResultPair("aaa.", false),
                                   new ResultPair(".aaa", false),
@@ -233,7 +249,7 @@ protected void setUp() {
                              new ResultPair(":0", true),
                              new ResultPair("", true),
                              new ResultPair(":-1", false),
-                            new ResultPair(":65636",false),
+                             new ResultPair(":65636",false),
                              new ResultPair(":65a", false)
    };
    ResultPair[] testPath = {new ResultPair("/test1", true),
