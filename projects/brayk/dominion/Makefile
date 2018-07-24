@@ -126,13 +126,13 @@ randomtestcard1: randomtestcard1.c dominion.o rngs.o
 
 randomtestcard2: randomtestcard2.c dominion.o rngs.o 
 	echo "randomtestcard2.c:" > randomtestcard2.out
-	gcc -o randomtestcard2 -g cardtest1.c dominion.o rngs.o $(CFLAGS)
+	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
 	./randomtestcard2
 	gcov dominion.c -b >> randomtestcard2.out
 
 randomtestadventurer: randomtestadventurer.c dominion.o rngs.o 
 	echo "randomtestadventurer.c:" > randomtestadventurer.out
-	gcc -o randomtestadventurer -g cardtest1.c dominion.o rngs.o $(CFLAGS)
+	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
 	./randomtestadventurer
 	gcov dominion.c -b >> randomtestadventurer.out
 
