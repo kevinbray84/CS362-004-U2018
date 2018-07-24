@@ -14,7 +14,7 @@ char *inputString()
     static char str[STRLEN];
     for (int i = 0; i < STRLEN - 1; i++)
     {
-      str[i] = (char)(rand() % 26 + 97);  // only use lowercase characters (26 chars, offset by 97)
+      str[i] = (char)(rand() % 16 + 101);  // only use lowercase characters (16 chars between e and t, offset by 101 to start at e)
     }
     str[STRLEN - 1] = '\0';
     return str;
@@ -31,10 +31,8 @@ void testme()
     tcCount++;
     c = inputChar();
     s = inputString();
-    if (!(tcCount % 10000))
-    {
-      printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
-    }
+
+    printf("Iteration %d: c = %c, s = %s, state = %d\n", tcCount, c, s, state);
 
     if (c == '[' && state == 0) state = 1;
     if (c == '(' && state == 1) state = 2;
