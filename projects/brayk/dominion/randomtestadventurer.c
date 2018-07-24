@@ -10,7 +10,7 @@
 #include <math.h>
 
 #define TESTCARD "adventurer"
-#define NUMTESTS 2000
+#define NUMTESTS 20000
 #define MAX_CHOICE 3
 #define MAX_HANDPOS 256
 #define MAX_PLAYERS 4
@@ -108,8 +108,18 @@ int main (int argc, char** argv)
 			G.deckCount[player] = 3;   // enforce a minimum deck size
 		}
 		G.discardCount[player] = floor(Random() * MAX_DECK);
-		G.handCount[player] = floor(Random() * MAX_HAND);
 
+		// TODO:  enforce a minimum here
+		G.handCount[player] = rand() % MAX_HAND;  // MAX_HAND = 500
+		if (G.handCount[player] < 5)
+		{
+			G.handCount[player] = 5;   // enforce a minimum deck size
+		}
+		if (G.handCount[player] > MAX_HAND - 100)
+		{
+			G.handCount[player] = MAX_HAND - 100;   // enforce a minimum deck size
+		}
+		// G.handCount[player] = 5;
 		// put at least MIN_TREASURES in random places in the player's
 		//printDeck(player, &G);
 		do
