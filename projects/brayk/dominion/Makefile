@@ -132,7 +132,7 @@ randomtestcard2: randomtestcard2.c dominion.o rngs.o
 
 randomtestadventurer: randomtestadventurer.c dominion.o rngs.o 
 	echo "randomtestadventurer.c:" > randomtestadventurer.out
-	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.o rngs.o $(CFLAGS)
+	gcc -o randomtestadventurer -g randomtestadventurer.c interface.c dominion.o rngs.o $(CFLAGS)
 	./randomtestadventurer
 	gcov dominion.c -b >> randomtestadventurer.out
 
