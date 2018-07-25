@@ -10,13 +10,12 @@
 #include <math.h>
 
 #define TESTCARD "adventurer"
-#define NUMTESTS 20000
+#define NUMTESTS 10000
 #define MAX_CHOICE 3
 #define MAX_HANDPOS 256
 #define MAX_PLAYERS 4
 #define MIN_TREASURES 3
-#define MAX_DECK 30
-#define MIN_DECK 2
+#define MIN_DECK 3
 
 // struct gameState {
 //   int numPlayers; //number of players
@@ -103,11 +102,11 @@ int main (int argc, char** argv)
 		player = rand() % MAX_PLAYERS;
 		G.whoseTurn = player;
 		G.deckCount[player] = rand() % MAX_DECK;
-		if (G.deckCount[player] < 3)
+		if (G.deckCount[player] < MIN_DECK)
 		{
-			G.deckCount[player] = 3;   // enforce a minimum deck size
+			G.deckCount[player] = MIN_DECK;   // enforce a minimum deck size
 		}
-		G.discardCount[player] = floor(Random() * MAX_DECK);
+		G.discardCount[player] = 0; //rand() % MAX_DECK * 2;
 
 		// TODO:  enforce a minimum here
 		G.handCount[player] = rand() % MAX_HAND;  // MAX_HAND = 500
@@ -115,14 +114,14 @@ int main (int argc, char** argv)
 		{
 			G.handCount[player] = 5;   // enforce a minimum deck size
 		}
-		if (G.handCount[player] > MAX_HAND - 100)
+		if (G.handCount[player] > MAX_HAND - G.handCount[player])
 		{
-			G.handCount[player] = MAX_HAND - 100;   // enforce a minimum deck size
+			G.handCount[player] = MAX_HAND - G.handCount[player];   // enforce a minimum deck size
 		}
 		// G.handCount[player] = 5;
 		// put at least MIN_TREASURES in random places in the player's
 		//printDeck(player, &G);
-		do
+		while (countTreasures(G.deck[player], G.deckCount[player]) < MIN_TREASURES)
 		{
 			k = rand() % G.deckCount[player];
 			treasureRoll = rand() % 3;
@@ -135,13 +134,13 @@ int main (int argc, char** argv)
 					if (treasureRoll == 2) { G.deck[player][k] = gold; }
 					count++;
 				}
-		} while (countTreasures(G.deck[player], G.deckCount[player]) < MIN_TREASURES);
-		printf("Deck size %d, treasures %d: ", G.deckCount[player], countTreasures(G.deck[player], G.deckCount[player]));
-		for (int i = 0; i < G.deckCount[player]; ++i)
-		{
-			printf("%d ", G.deck[player][i]);
-		}
-		printf("\n***********************************\n");
+		};
+		printf("Deck size %d, treasures %d, handCount: %d ", G.deckCount[player], countTreasures(G.deck[player], G.deckCount[player]), G.handCount[player]);
+		// for (int i = 0; i < G.deckCount[player]; ++i)
+		// {
+		// 	printf("%d ", G.deck[player][i]);
+		// }
+		// printf("\n***********************************\n");
 		//printDeck(player, &G);
 
 		checkAdventurer(card, choice1, choice2, choice3, &G, handPos, &bonus);
