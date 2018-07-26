@@ -10,7 +10,7 @@
 #include <math.h>
 
 #define TESTCARD "adventurer"
-#define NUMTESTS 10000000
+#define NUMTESTS 5000
 #define MAX_CHOICE 3
 #define MAX_HANDPOS 256
 #define MAX_PLAYERS 4
@@ -43,9 +43,7 @@ int countTreasures(int *deck, int deckSize)
 	int count = 0;
 	for (int i = 0; i < deckSize; ++i)
 	{
-		if (deck[i] == copper ||
-		    deck[i] == silver ||
-			deck[i] == gold)
+		if (deck[i] == copper || deck[i] == silver || deck[i] == gold)
 			{
 				count++;
 			}
@@ -63,7 +61,6 @@ int checkAdventurer(int card, int choice1, int choice2, int choice3, struct game
 	memcpy(&pre, post, sizeof(struct gameState));
 	assert(memcmp(&pre, post, sizeof(struct gameState)) == 0);  // verify memory copied correctly
 
-    // check that tehre was no change to player 2
     // check that there was no change to kingdom or treasure decks
 
 	result = cardEffect(card, choice1, choice2, choice3, post, handPos, bonus);
@@ -77,7 +74,6 @@ int checkAdventurer(int card, int choice1, int choice2, int choice3, struct game
 		printf("ERROR handCount: Expected %d got %d\n", pre.handCount[player], post->handCount[player]);
 	}
 
-
     // check that the two new cards are treasure cards
 	preTreasureCount = countTreasures(pre.hand[player], pre.handCount[player]);
 	postTreasureCount = countTreasures(post->hand[player], post->handCount[player]);
@@ -85,16 +81,6 @@ int checkAdventurer(int card, int choice1, int choice2, int choice3, struct game
 	{
 		printf("ERROR treasureCount: Expected %d got %d\n", preTreasureCount, postTreasureCount);
 	}
-
-	// check that tehre was no change to other players
-	for (int i = 0; i < MAX_PLAYERS; ++i)
-	{
-		if (memcmp(pre.hand[i], post->hand[i], sizeof(pre.handCount[i])) != 0)
-		{
-			printf("ERROR %d: Hand value mismatch\n", i);
-		}
-	}
-
 
 	return 0;
 }
@@ -139,8 +125,12 @@ int main (int argc, char** argv)
 		{
 			((char*)&G)[j] = floor(Random() * 256);
 		}
-		G.numPlayers = floor(Random() * MAX_PLAYERS);
-		player = rand() % MAX_PLAYERS;
+		G.numPlayers = rand() % MAX_PLAYERS + 1;
+		if (G.numPlayers < 2)
+		{
+			G.numPlayers = 2;
+		}
+		player = rand() % G.numPlayers;
 		G.whoseTurn = player;
 		G.deckCount[player] = rand() % MAX_DECK;
 		if (G.deckCount[player] < MIN_DECK)
@@ -162,6 +152,8 @@ int main (int argc, char** argv)
 		// G.handCount[player] = 5;
 		// put at least MIN_TREASURES in random places in the player's
 		//printDeck(player, &G);
+
+		// there must be some treasures in the deck, otherwise it adventurer loops for ever
 		while (countTreasures(G.deck[player], G.deckCount[player]) < MIN_TREASURES)
 		{
 			k = rand() % G.deckCount[player];
@@ -184,6 +176,16 @@ int main (int argc, char** argv)
 		// }
 		// printf("\n***********************************\n");
 		// printDeck(player, &G);
+
+
+		// print test state
+		// printf("**** TESTING ****\n");
+		// printf("player: %d of %d\n", player + 1, G.numPlayers);
+		// printf("deckCount: %d\n", G.deckCount[player]);
+		// printf("handCount: %d\n", G.handCount[player]);
+		// printf("numTreasures: %d\n", countTreasures(G.deck[player], G.deckCount[player]));
+		
+
 
 		checkAdventurer(card, choice1, choice2, choice3, &G, handPos, &bonus, player);
 	}
