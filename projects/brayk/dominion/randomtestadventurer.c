@@ -10,7 +10,7 @@
 #include <math.h>
 
 #define TESTCARD "adventurer"
-#define NUMTESTS 10000
+#define NUMTESTS 10000000
 #define MAX_CHOICE 3
 #define MAX_HANDPOS 256
 #define MAX_PLAYERS 4
@@ -38,23 +38,6 @@
 //   int playedCardCount;
 // };
 
-int checkAdventurer(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
-{
-	printf("cardEffect(%d, %d, %d, %d, state, %d, %d)\n", card, choice1, choice2, choice3, handPos, *bonus);
-	cardEffect(card, choice1, choice2, choice3, state, handPos, bonus);
-	return 0;
-}
-
-// void printDeck(struct gameState *G)
-// {
-// 	printf("Deck size %d: ", G.deckCount[G.whoseTurn]);
-// 	for (int i = 0; i < G.deckCount[G.whoseTurn]; ++i)
-// 	{
-// 		printf("%d ", G.deck[G.whoseTurn][i]);
-// 	}
-// 	printf("\n***********************************\n");
-// }
-
 int countTreasures(int *deck, int deckSize)
 {
 	int count = 0;
@@ -69,6 +52,64 @@ int countTreasures(int *deck, int deckSize)
 	}
 	return count;
 }
+
+int checkAdventurer(int card, int choice1, int choice2, int choice3, struct gameState *post, int handPos, int *bonus, int player)
+{
+	struct gameState pre;
+	int result;
+	int preTreasureCount;
+	int postTreasureCount;
+
+	memcpy(&pre, post, sizeof(struct gameState));
+	assert(memcmp(&pre, post, sizeof(struct gameState)) == 0);  // verify memory copied correctly
+
+    // check that tehre was no change to player 2
+    // check that there was no change to kingdom or treasure decks
+
+	result = cardEffect(card, choice1, choice2, choice3, post, handPos, bonus);
+	
+	// check function returned correctly
+	assert(result == 0);
+
+	// check that hand increased by 2
+	if (pre.handCount[player] != post->handCount[player] - 2)
+	{
+		printf("ERROR handCount: Expected %d got %d\n", pre.handCount[player], post->handCount[player]);
+	}
+
+
+    // check that the two new cards are treasure cards
+	preTreasureCount = countTreasures(pre.hand[player], pre.handCount[player]);
+	postTreasureCount = countTreasures(post->hand[player], post->handCount[player]);
+	if (preTreasureCount != postTreasureCount - 2)
+	{
+		printf("ERROR treasureCount: Expected %d got %d\n", preTreasureCount, postTreasureCount);
+	}
+
+	// check that tehre was no change to other players
+	for (int i = 0; i < MAX_PLAYERS; ++i)
+	{
+		if (memcmp(pre.hand[i], post->hand[i], sizeof(pre.handCount[i])) != 0)
+		{
+			printf("ERROR %d: Hand value mismatch\n", i);
+		}
+	}
+
+
+	return 0;
+}
+
+// void printDeck(struct gameState *G)
+// {
+// 	printf("Deck size %d: ", G.deckCount[G.whoseTurn]);
+// 	for (int i = 0; i < G.deckCount[G.whoseTurn]; ++i)
+// 	{
+// 		printf("%d ", G.deck[G.whoseTurn][i]);
+// 	}
+// 	printf("\n***********************************\n");
+// }
+
+
 
 int main (int argc, char** argv)
 {
@@ -112,12 +153,12 @@ int main (int argc, char** argv)
 		G.handCount[player] = rand() % MAX_HAND;  // MAX_HAND = 500
 		if (G.handCount[player] < 5)
 		{
-			G.handCount[player] = 5;   // enforce a minimum deck size
+			G.handCount[player] = 5;   // enforce a minimum hand size
 		}
-		if (G.handCount[player] > MAX_HAND - G.handCount[player])
-		{
-			G.handCount[player] = MAX_HAND - G.handCount[player];   // enforce a minimum deck size
-		}
+		// if (G.handCount[player] > MAX_HAND - G.handCount[player])
+		// {
+		// 	G.handCount[player] = MAX_HAND - G.handCount[player];   // enforce a minimum deck size
+		// }
 		// G.handCount[player] = 5;
 		// put at least MIN_TREASURES in random places in the player's
 		//printDeck(player, &G);
@@ -135,15 +176,16 @@ int main (int argc, char** argv)
 					count++;
 				}
 		};
-		printf("Deck size %d, treasures %d, handCount: %d ", G.deckCount[player], countTreasures(G.deck[player], G.deckCount[player]), G.handCount[player]);
+
+		// printf("Deck size %d, treasures %d, handCount: %d\n", G.deckCount[player], countTreasures(G.deck[player], G.deckCount[player]), G.handCount[player]);
 		// for (int i = 0; i < G.deckCount[player]; ++i)
 		// {
 		// 	printf("%d ", G.deck[player][i]);
 		// }
 		// printf("\n***********************************\n");
-		//printDeck(player, &G);
+		// printDeck(player, &G);
 
-		checkAdventurer(card, choice1, choice2, choice3, &G, handPos, &bonus);
+		checkAdventurer(card, choice1, choice2, choice3, &G, handPos, &bonus, player);
 	}
 
 	return 0;
