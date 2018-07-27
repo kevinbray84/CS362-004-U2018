@@ -51,7 +51,7 @@ int checkAdventurer(int card, int choice1, int choice2, int choice3, struct game
 	// check that hand increased by 2
 	if (pre.handCount[player] != post->handCount[player] - 2)
 	{
-		printf("ERROR handCount: Expected %d got %d\n", pre.handCount[player], post->handCount[player]);
+		printf("ERROR handCount: Expected %d got %d\n", pre.handCount[player] + 2, post->handCount[player]);
 		foundError++;
 	}
 
@@ -60,7 +60,7 @@ int checkAdventurer(int card, int choice1, int choice2, int choice3, struct game
 	postTreasureCount = countTreasures(post->hand[player], post->handCount[player]);
 	if (preTreasureCount != postTreasureCount - 2)
 	{
-		printf("ERROR treasureCount: Expected %d got %d\n", preTreasureCount, postTreasureCount);
+		printf("ERROR treasureCount: Expected %d got %d\n", preTreasureCount + 2, postTreasureCount);
 		foundError++;
 	}
 
