@@ -10,7 +10,7 @@
 #include <math.h>
 
 #define TESTCARD "adventurer"
-#define NUMTESTS 10000
+#define NUMTESTS 5000
 #define MAX_CHOICE 3
 #define MAX_HANDPOS 256
 #define MAX_PLAYERS 4
