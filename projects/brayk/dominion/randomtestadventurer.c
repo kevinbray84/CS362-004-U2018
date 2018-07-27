@@ -64,7 +64,7 @@ int checkAdventurer(int card, int choice1, int choice2, int choice3, struct game
 		foundError++;
 	}
 
-	return 0;
+	return foundError;
 }
 
 
@@ -81,6 +81,7 @@ int main (int argc, char** argv)
 	int m, k, whichDeck;
 	int treasureRoll;
 	int count = 0;
+	int foundError = 0;
 
 	srand(time(NULL));
 
@@ -170,7 +171,18 @@ int main (int argc, char** argv)
 		// printf("discardCount: %d (%d total)\n", G.discardCount[player], G.deckCount[player] + G.discardCount[player] + G.handCount[player]);
 		// printf("handCount: %d\n", G.handCount[player]);
 		
-		checkAdventurer(card, choice1, choice2, choice3, &G, handPos, &bonus);
+		foundError += checkAdventurer(card, choice1, choice2, choice3, &G, handPos, &bonus);
+
+	}
+
+	printf("******************** %s testing complete ********************\n", TESTCARD);
+	if (foundError)
+	{
+		printf("Found %d errors.  See log for details\n", foundError);
+	}
+	else
+	{
+		printf("SUCCESS - All tests successful\n");
 	}
 
 	return 0;
