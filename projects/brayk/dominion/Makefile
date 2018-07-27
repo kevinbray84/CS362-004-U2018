@@ -120,7 +120,7 @@ unittestresults: dominion.o rngs.o unittest1.c unittest2.c unittest3.c unittest4
 
 randomtestcard1: randomtestcard1.c dominion.o rngs.o 
 	echo "randomtestcard1.c:" > randomtestcard1.out
-	gcc -o randomtestcard1 -g cardtest1.c dominion.o rngs.o $(CFLAGS)
+	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
 	./randomtestcard1
 	gcov dominion.c -b >> randomtestcard1.out
 
