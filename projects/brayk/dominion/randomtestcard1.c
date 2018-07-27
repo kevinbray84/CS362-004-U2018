@@ -6,90 +6,181 @@
 #include "rngs.h"
 #include <stdlib.h>
 #include "interface.h"
+#include <time.h>
+#include <math.h>
 
 #define TESTCARD "smithy"
+#define NUMTESTS 100
+#define MAX_CHOICE 3
+#define MAX_HANDPOS 256
+#define MAX_PLAYERS 4
+#define MIN_TREASURES 3
+#define MIN_DECK 3
+#define MIN_HAND 5
 
+int countTreasures(int *deck, int deckSize)
+{
+	int count = 0;
+	for (int i = 0; i < deckSize; ++i)
+	{
+		if (deck[i] == copper || deck[i] == silver || deck[i] == gold)
+			{
+				count++;
+			}
+	}
+	return count;
+}
+
+int checkSmithy(int card, int choice1, int choice2, int choice3, struct gameState *post, int handPos, int *bonus)
+{
+	struct gameState pre;
+	int result;
+
+	int player = post->whoseTurn;
+	int foundError = 0;
+
+	memcpy(&pre, post, sizeof(struct gameState));
+	assert(memcmp(&pre, post, sizeof(struct gameState)) == 0);  // verify memory copied correctly
+
+	result = cardEffect(card, choice1, choice2, choice3, post, handPos, bonus);
+	
+	// check function returned correctly
+	assert(result == 0);
+
+	// check that hand increased by 3
+	if (pre.handCount[player] != post->handCount[player] - 3)
+	{
+		printf("ERROR handCount: Expected %d got %d\n", pre.handCount[player] + 3, post->handCount[player]);
+		foundError++;
+	}
+
+	// check that deck is decreased by 3
+	if (pre.deckCount[player] != post->deckCount[player] + 3)
+	{
+		printf("ERROR deckCount: Expected %d got %d\n", pre.deckCount[player] - 3, post->deckCount[player]);
+		foundError++;
+	}
+
+	return foundError;
+}
 
 
 int main (int argc, char** argv)
 {
-    int newCards = 0;
+	int card = smithy;
+	int choice1 = 0;
+	int choice2 = 0;
+	int choice3 = 0;
+    struct gameState G;
+	int handPos = 0;
+	int bonus = 0;
+	int player;
+	int m, k, whichDeck;
+	int treasureRoll;
+	int count = 0;
+	int foundError = 0;
 
-    int handpos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0;
-    int seed = 1000;
-    int numPlayers = 2;
-    int thisPlayer = 0;
-	int thatPlayer = 1;
-	struct gameState G, testG;
-	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
-			sea_hag, tribute, smithy, council_room};
-	//char cardName[16];
+	srand(time(NULL));
 
-	// initialize a game state and player cards
-	initializeGame(numPlayers, k, seed, &G);
-
-	printf("----------------- Testing Card: %s ----------------\n", TESTCARD);
-
-	// ----------- TEST 1: Gain 3 cards --------------
-	printf("TEST 1: Gain 3 cards\n");
-
-	// copy the game state to a test case
-	memcpy(&testG, &G, sizeof(struct gameState));
-	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
-	newCards = 3;
-
-	printf("hand count = %d, expected = %d: ", testG.handCount[thisPlayer], G.handCount[thisPlayer] + newCards);
-	assertTrue(testG.handCount[thisPlayer] == G.handCount[thisPlayer] + newCards);
-
-	// ----------- TEST 2: Deck size reduced by 3 cards --------------
-	printf("TEST 2: Deck size reduced by 3 cards\n");
-	
-	// copy the game state to a test case
-	memcpy(&testG, &G, sizeof(struct gameState));
-	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
-	
-	printf("deck count = %d, expected = %d: ", testG.deckCount[thisPlayer], G.deckCount[thisPlayer] - newCards);
-	assertTrue(testG.deckCount[thisPlayer] == G.deckCount[thisPlayer] + newCards);
-	
-
-	// ----------- TEST 3: Verify no change to other player --------------
-	printf("TEST 3: Verify no change to other players\n");
-	
-	// copy the game state to a test case
-	memcpy(&testG, &G, sizeof(struct gameState));
-	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
-
-	printf("other player hand count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
-	assertTrue(testG.handCount[thatPlayer] == G.handCount[thatPlayer]);
-
-	printf("other player deck count = %d, expected = %d: ", testG.deckCount[thatPlayer], G.deckCount[thatPlayer]);
-	assertTrue(testG.deckCount[thatPlayer] == G.deckCount[thatPlayer]);
-
-	// ----------- TEST 4: Verify no change to victory card pile --------------
-	printf("TEST 4: Verify no change to victory card piles\n");
-
-	// copy the game state to a test case
-	memcpy(&testG, &G, sizeof(struct gameState));
-	cardEffect(smithy, choice1, choice2, choice3, &testG, handpos, &bonus);
-
-	printf("Verifying no change to victory card piles...\n");
-	printf("%d estates before == %d estates after: ", G.supplyCount[estate], testG.supplyCount[estate]);
-	assertTrue(G.supplyCount[estate] == testG.supplyCount[estate]);
-	printf("%d duchies before == %d duchies after: ", G.supplyCount[duchy], testG.supplyCount[duchy]);
-	assertTrue(G.supplyCount[duchy] == testG.supplyCount[duchy]);
-	printf("%d provinces before == %d provinces after: ", G.supplyCount[province], testG.supplyCount[province]);
-	assertTrue(G.supplyCount[province] == testG.supplyCount[province]);
-
-	// ----------- TEST 5: Verify no change to kingdom card pile --------------
-	for (int i = 0; i < 10; i++)
+	// generate random values
+	for (int i = 0; i < NUMTESTS; ++i)
 	{
-		// cardNumToName(k[i], cardName);
-		// printf("%d %s before == %d %s after: ", G.supplyCount[k[i]], cardName, G.supplyCount[k[i]], cardName);
-		printf("%d Kingdom card %d before == %d kingdom card %d after: ", G.supplyCount[k[i]], i, G.supplyCount[k[i]], i);
-		assertTrue(G.supplyCount[k[i]] == testG.supplyCount[k[i]]);
+		choice1 = floor(Random() * MAX_CHOICE);
+		choice2 = floor(Random() * MAX_CHOICE);
+		choice3 = floor(Random() * MAX_CHOICE);
+		for (int j = 0; j < sizeof(struct gameState); ++j)
+		{
+			((char*)&G)[j] = floor(Random() * 256);
+		}
+		G.numPlayers = rand() % MAX_PLAYERS + 1;
+		if (G.numPlayers < 2)
+		{
+			G.numPlayers = 2;
+		}
+		player = rand() % G.numPlayers;
+		G.whoseTurn = player;
+		G.deckCount[player] = rand() % MAX_DECK / 2;
+		G.handCount[player] = rand() % MAX_HAND / 2;  // MAX_HAND = 500
+		if (G.handCount[player] < MIN_HAND)
+		{
+			G.handCount[player] = MIN_HAND;   // enforce a minimum hand size
+		}
+		if (G.deckCount[player] < MIN_DECK)
+		{
+			G.deckCount[player] = MIN_DECK;   // enforce a minimum deck size
+		}
+		if (G.deckCount[player] + G.handCount[player] > MAX_DECK)
+		{
+			G.handCount[player] = MAX_DECK - rand() % G.deckCount[player];  // ensure sum of deck and hand are < MAX
+		}
+
+		G.discardCount[player] = MAX_DECK - G.deckCount[player] - G.handCount[player];
+		if (G.discardCount[player] < 0) {G.discardCount[player] = 0;}
+
+		// there must be some treasures in the deck and discard, otherwise it adventurer loops for ever
+		// some treasures must go into the discard or it will never shuffle
+		while (countTreasures(G.deck[player], G.deckCount[player]) + countTreasures(G.discard[player], G.discardCount[player]) < MIN_TREASURES)
+		{
+			k = rand() % G.deckCount[player];
+			if (G.discardCount[player] != 0)
+			{
+				m = rand() % G.discardCount[player];
+				whichDeck = rand() % 2;   // determine if we put in discard pile or regular deck
+			}
+			else
+			{
+				m = 0;
+				whichDeck = 0;
+			}
+			treasureRoll = rand() % 3;
+
+			// put some treasures in the deck and some in the discard
+			if (whichDeck == 0)
+			{
+				if (G.deck[player][k] != copper &&
+					G.deck[player][k] != silver &&
+					G.deck[player][k] != gold)
+					{
+						if (treasureRoll == 0) { G.deck[player][k] = copper; }
+						if (treasureRoll == 1) { G.deck[player][k] = silver; }
+						if (treasureRoll == 2) { G.deck[player][k] = gold; }
+						count++;
+					}
+			}
+			else
+			{
+				if (G.discard[player][m] != copper &&
+					G.discard[player][m] != silver &&
+					G.discard[player][m] != gold)
+					{
+						if (treasureRoll == 0) { G.discard[player][m] = copper; }
+						if (treasureRoll == 1) { G.discard[player][m] = silver; }
+						if (treasureRoll == 2) { G.discard[player][m] = gold; }
+						count++;
+					}
+			}
+		};
+
+		// print test state
+		// printf("**** TESTING ****\n");
+		// printf("player: %d of %d\n", player + 1, G.numPlayers);
+		// printf("deckCount: %d\n", G.deckCount[player]);
+		// printf("discardCount: %d (%d total)\n", G.discardCount[player], G.deckCount[player] + G.discardCount[player] + G.handCount[player]);
+		// printf("handCount: %d\n", G.handCount[player]);
+		
+		foundError += checkSmithy(card, choice1, choice2, choice3, &G, handPos, &bonus);
+
 	}
 
-	printf("\n >>>>> %s testing complete <<<<<\n\n", TESTCARD);
+	printf("******************** %s testing complete ********************\n", TESTCARD);
+	if (foundError)
+	{
+		printf("Found %d errors.  See log for details\n", foundError);
+	}
+	else
+	{
+		printf("SUCCESS - All tests successful\n");
+	}
 
 	return 0;
 }
