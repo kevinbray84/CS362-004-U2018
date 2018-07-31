@@ -22,3 +22,15 @@ projects/brayk/FinalProject/URLValidatorCorrect/.classpath
 projects/brayk/dominion/randomtestadventurer
 projects/brayk/dominion/randomtestcard1
 projects/brayk/dominion/randomtestcard2
+FinalProject/URLValidatorInCorrect/bin/*
+projects/brayk/FinalProject/URLValidatorInCorrect/.gitignore
+projects/brayk/FinalProject/.gitignore
+projects/brayk/FinalProject/URLValidatorInCorrect/.classpath
+projects/brayk/FinalProject/URLValidatorInCorrect/bin/*
+projects/brayk/FinalProject/URLValidatorInCorrect/test/.project
+projects/brayk/FinalProject/URLValidatorInCorrect/.classpath
+projects/brayk/FinalProject/URLValidatorInCorrect/.settings/org.eclipse.core.resources.prefs
+projects/brayk/FinalProject/URLValidatorInCorrect/src/.gitignore
+projects/brayk/FinalProject/URLValidatorInCorrect/src/.project
+projects/brayk/FinalProject/URLValidatorInCorrect/test/.gitignore
+projects/brayk/FinalProject/URLValidatorInCorrect/.classpath
