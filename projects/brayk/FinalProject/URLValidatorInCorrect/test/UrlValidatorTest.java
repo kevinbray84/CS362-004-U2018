@@ -142,21 +142,33 @@ public class UrlValidatorTest extends TestCase {
 	   String scheme;
 	   
 	  // *** Test scheme component ***
+	   String allowedSchemes[] = {
+			   "http",
+			   "https",
+			   "ftp",
+			   "randomscheme"
+	   };
+	   
 	   String goodSchemes[] = {
 			   "http",
 			   "https",
 			   "ftp",
+			   "HTTP",
+			   "FTP",
+			   "HTTPS",
+			   "randomscheme"
 	   };
 	   
 	   String badSchemes[] = {
 			   "asdffdsa",
 			   "3ht",
 			   "asdf"
+
 	   };
 	   
 	   // using this constructor allows you to pass in a list of good schemes.  
 	   // the 0L flag gives no options such as ALLOW_ALL_SCHEMES or ALLOW_2_SLASHES
-	   UrlValidator urlVal = new UrlValidator(goodSchemes, 0L);
+	   UrlValidator urlVal = new UrlValidator(allowedSchemes, 0L);
 	   
 	   System.out.println("\n**************  TESTING SCHEME COMPONENTS **************");
 	   System.out.println("PASS/FAIL | EXPECTED | ACTUAL | SCHEME");
