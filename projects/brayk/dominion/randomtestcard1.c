@@ -68,7 +68,7 @@ int checkSmithy(int card, int choice1, int choice2, int choice3, struct gameStat
 int main (int argc, char** argv)
 {
 	int card = smithy;
-	int choice1 = 0;
+		int choice1 = 0;
 	int choice2 = 0;
 	int choice3 = 0;
     struct gameState G;
@@ -99,67 +99,72 @@ int main (int argc, char** argv)
 		}
 		player = rand() % G.numPlayers;
 		G.whoseTurn = player;
-		G.deckCount[player] = rand() % MAX_DECK / 2;
-		G.handCount[player] = rand() % MAX_HAND / 2;  // MAX_HAND = 500
-		if (G.handCount[player] < MIN_HAND)
-		{
-			G.handCount[player] = MIN_HAND;   // enforce a minimum hand size
-		}
-		if (G.deckCount[player] < MIN_DECK)
-		{
-			G.deckCount[player] = MIN_DECK;   // enforce a minimum deck size
-		}
-		if (G.deckCount[player] + G.handCount[player] > MAX_DECK)
-		{
-			G.handCount[player] = MAX_DECK - rand() % G.deckCount[player];  // ensure sum of deck and hand are < MAX
-		}
+		G.playedCardCount = 0;
 
-		G.discardCount[player] = MAX_DECK - G.deckCount[player] - G.handCount[player];
-		if (G.discardCount[player] < 0) {G.discardCount[player] = 0;}
-
-		// there must be some treasures in the deck and discard, otherwise it adventurer loops for ever
-		// some treasures must go into the discard or it will never shuffle
-		while (countTreasures(G.deck[player], G.deckCount[player]) + countTreasures(G.discard[player], G.discardCount[player]) < MIN_TREASURES)
+		for (int currentPlayer = 0; currentPlayer < G.numPlayers; ++currentPlayer)
 		{
-			k = rand() % G.deckCount[player];
-			if (G.discardCount[player] != 0)
+			G.deckCount[currentPlayer] = rand() % MAX_DECK / 2;
+			G.handCount[currentPlayer] = rand() % MAX_HAND / 2;  // MAX_HAND = 500
+			if (G.handCount[currentPlayer] < MIN_HAND)
 			{
-				m = rand() % G.discardCount[player];
-				whichDeck = rand() % 2;   // determine if we put in discard pile or regular deck
+				G.handCount[currentPlayer] = MIN_HAND;   // enforce a minimum hand size
 			}
-			else
+			if (G.deckCount[currentPlayer] < MIN_DECK)
 			{
-				m = 0;
-				whichDeck = 0;
+				G.deckCount[currentPlayer] = MIN_DECK;   // enforce a minimum deck size
 			}
-			treasureRoll = rand() % 3;
+			if (G.deckCount[currentPlayer] + G.handCount[currentPlayer] > MAX_DECK)
+			{
+				G.handCount[currentPlayer] = MAX_DECK - rand() % G.deckCount[currentPlayer];  // ensure sum of deck and hand are < MAX
+			}
 
-			// put some treasures in the deck and some in the discard
-			if (whichDeck == 0)
+			G.discardCount[currentPlayer] = MAX_DECK - G.deckCount[currentPlayer] - G.handCount[currentPlayer];
+			if (G.discardCount[currentPlayer] < 0) {G.discardCount[currentPlayer] = 0;}
+
+			// there must be some treasures in the deck and discard, otherwise it adventurer loops for ever
+			// some treasures must go into the discard or it will never shuffle
+			while (countTreasures(G.deck[currentPlayer], G.deckCount[currentPlayer]) + countTreasures(G.discard[currentPlayer], G.discardCount[currentPlayer]) < MIN_TREASURES)
 			{
-				if (G.deck[player][k] != copper &&
-					G.deck[player][k] != silver &&
-					G.deck[player][k] != gold)
-					{
-						if (treasureRoll == 0) { G.deck[player][k] = copper; }
-						if (treasureRoll == 1) { G.deck[player][k] = silver; }
-						if (treasureRoll == 2) { G.deck[player][k] = gold; }
-						count++;
-					}
-			}
-			else
-			{
-				if (G.discard[player][m] != copper &&
-					G.discard[player][m] != silver &&
-					G.discard[player][m] != gold)
-					{
-						if (treasureRoll == 0) { G.discard[player][m] = copper; }
-						if (treasureRoll == 1) { G.discard[player][m] = silver; }
-						if (treasureRoll == 2) { G.discard[player][m] = gold; }
-						count++;
-					}
-			}
-		};
+				k = rand() % G.deckCount[currentPlayer];
+				if (G.discardCount[currentPlayer] != 0)
+				{
+					m = rand() % G.discardCount[currentPlayer];
+					whichDeck = rand() % 2;   // determine if we put in discard pile or regular deck
+				}
+				else
+				{
+					m = 0;
+					whichDeck = 0;
+				}
+				treasureRoll = rand() % 3;
+
+				// put some treasures in the deck and some in the discard
+				if (whichDeck == 0)
+				{
+					if (G.deck[currentPlayer][k] != copper &&
+						G.deck[currentPlayer][k] != silver &&
+						G.deck[currentPlayer][k] != gold)
+						{
+							if (treasureRoll == 0) { G.deck[currentPlayer][k] = copper; }
+							if (treasureRoll == 1) { G.deck[currentPlayer][k] = silver; }
+							if (treasureRoll == 2) { G.deck[currentPlayer][k] = gold; }
+							count++;
+						}
+				}
+				else
+				{
+					if (G.discard[currentPlayer][m] != copper &&
+						G.discard[currentPlayer][m] != silver &&
+						G.discard[currentPlayer][m] != gold)
+						{
+							if (treasureRoll == 0) { G.discard[currentPlayer][m] = copper; }
+							if (treasureRoll == 1) { G.discard[currentPlayer][m] = silver; }
+							if (treasureRoll == 2) { G.discard[currentPlayer][m] = gold; }
+							count++;
+						}
+				}
+			};
+		}
 
 		// print test state
 		// printf("**** TESTING ****\n");
