@@ -1,8 +1,8 @@
 randomtestcard2.c:
 File 'dominion.c'
-Lines executed:17.37% of 570
-Branches executed:15.99% of 419
-Taken at least once:10.74% of 419
-Calls executed:15.84% of 101
+Lines executed:42.81% of 570
+Branches executed:41.77% of 419
+Taken at least once:32.22% of 419
+Calls executed:36.63% of 101
 Creating 'dominion.c.gcov'
 
