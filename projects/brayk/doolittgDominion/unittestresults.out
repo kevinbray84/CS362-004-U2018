@@ -1,0 +1,236 @@
+Result for running all unit tests:
+unittest1.c:
+********* Testing supplyCount(): Expected == Actual? *********
+TEST 1: Check all supply counts during initial state
+*** Victory Cards: Expected == Actual ***
+estate: 8 == 8:         PASSED
+duchy: 8 == 8:          PASSED
+province: 8 == 8:       PASSED
+*** Kingdom Cards: Expected == Actual ***
+adventurer: 10 == 10:   PASSED
+embargo: 10 == 10:      PASSED
+village: 10 == 10:      PASSED
+minion: 10 == 10:       PASSED
+mine: 10 == 10:         PASSED
+cutpurse: 10 == 10:     PASSED
+sea_hag: 10 == 10:      PASSED
+tribute: 10 == 10:      PASSED
+smithy: 10 == 10:       PASSED
+council_room: 10 == 10: PASSED
+TEST 1: Check after buying a card
+embargo: 9 == 9:        PASSED
+File 'dominion.c'
+Lines executed:20.18% of 565
+Branches executed:25.42% of 417
+Taken at least once:14.15% of 417
+Calls executed:13.27% of 98
+Creating 'dominion.c.gcov'
+
+unittest2.c:
+********* Testing numHandCards(): Expected == Actual? *********
+TEST 1: Check all card counts during initial state
+Num hand cards: 5 == 5:     PASSED
+After smithy: 8 == 7:       FAILED
+File 'dominion.c'
+Lines executed:27.61% of 565
+Branches executed:34.29% of 417
+Taken at least once:16.79% of 417
+Calls executed:26.53% of 98
+Creating 'dominion.c.gcov'
+
+unittest3.c:
+********* Testing getCost(): Expected == Actual? *********
+curse: 0 == 0:        PASSED
+estate: 2 == 2:       PASSED
+duchy: 5 == 5:        PASSED
+province: 8 == 8:     PASSED
+province: 8 == 8:     PASSED
+copper: 0 == 0:       PASSED
+silver: 3 == 3:       PASSED
+gold: 6 == 6:         PASSED
+adventurer: 6 == 6:   PASSED
+council_room: 5 == 5: PASSED
+feast: 4 == 4:        PASSED
+gardens: 4 == 4:      PASSED
+mine: 5 == 5:         PASSED
+remodel: 4 == 4:      PASSED
+smithy: 4 == 4:       PASSED
+village: 3 == 3:      PASSED
+baron: 4 == 4:        PASSED
+great_hall: 3 == 3:   PASSED
+minion: 5 == 5:       PASSED
+steward: 3 == 3:      PASSED
+tribute: 5 == 5:      PASSED
+ambassador: 3 == 3:   PASSED
+cutpurse: 4 == 4:     PASSED
+embargo: 2 == 2:      PASSED
+outpost: 5 == 5:      PASSED
+salvager: 4 == 4:     PASSED
+sea_hag: 4 == 4:      PASSED
+treasure_map: 4 == 4: PASSED
+File 'dominion.c'
+Lines executed:32.21% of 565
+Branches executed:34.29% of 417
+Taken at least once:23.02% of 417
+Calls executed:26.53% of 98
+Creating 'dominion.c.gcov'
+
+unittest4.c:
+********* Testing isGameOver(): Expected == Actual? *********
+TEST 1: Check at start of the game (all decks full)
+Full decks.  0 == 0?  PASSED
+TEST 2: Check when victory cards are empty
+estate empty.  0 == 0?    PASSED
+duchy empty.  0 == 0?     PASSED
+province empty.  1 == 1?  PASSED
+TEST 3: Check when kingdom cards are empty
+ 0 of 10 kingdom decks empty.  0 == 0?  PASSED
+ 1 of 10 kingdom decks empty.  0 == 0?  PASSED
+ 2 of 10 kingdom decks empty.  0 == 0?  PASSED
+ 3 of 10 kingdom decks empty.  1 == 1?  PASSED
+ 4 of 10 kingdom decks empty.  1 == 1?  PASSED
+ 5 of 10 kingdom decks empty.  1 == 1?  PASSED
+ 6 of 10 kingdom decks empty.  1 == 1?  PASSED
+ 7 of 10 kingdom decks empty.  1 == 1?  PASSED
+ 8 of 10 kingdom decks empty.  1 == 1?  PASSED
+ 9 of 10 kingdom decks empty.  1 == 1?  PASSED
+10 of 10 kingdom decks empty.  1 == 1?  PASSED
+File 'dominion.c'
+Lines executed:33.98% of 565
+Branches executed:36.21% of 417
+Taken at least once:24.94% of 417
+Calls executed:26.53% of 98
+Creating 'dominion.c.gcov'
+
+cardtest1.c:
+----------------- Testing Card: smithy ----------------
+TEST 1: Gain 3 cards
+hand count = 7, expected = 8: FAILED
+TEST 2: Deck size reduced by 3 cards
+deck count = 1, expected = 2: FAILED
+TEST 3: Verify no change to other players
+other player hand count = 10, expected = 10: PASSED
+other player deck count = 10, expected = 10: PASSED
+TEST 4: Verify no change to victory card piles
+Verifying no change to victory card piles...
+8 estates before == 6 estates after: FAILED
+8 duchies before == 8 duchies after: PASSED
+8 provinces before == 8 provinces after: PASSED
+10 Kingdom card 0 before == 10 kingdom card 0 after: PASSED
+10 Kingdom card 1 before == 10 kingdom card 1 after: PASSED
+10 Kingdom card 2 before == 10 kingdom card 2 after: PASSED
+10 Kingdom card 3 before == 10 kingdom card 3 after: PASSED
+10 Kingdom card 4 before == 10 kingdom card 4 after: PASSED
+10 Kingdom card 5 before == 10 kingdom card 5 after: PASSED
+10 Kingdom card 6 before == 10 kingdom card 6 after: PASSED
+10 Kingdom card 7 before == 10 kingdom card 7 after: PASSED
+10 Kingdom card 8 before == 10 kingdom card 8 after: PASSED
+10 Kingdom card 9 before == 10 kingdom card 9 after: PASSED
+
+ >>>>> smithy testing complete <<<<<
+
+File 'dominion.c'
+Lines executed:33.98% of 565
+Branches executed:36.21% of 417
+Taken at least once:24.94% of 417
+Calls executed:26.53% of 98
+Creating 'dominion.c.gcov'
+
+cardtest2.c:
+----------------- Testing Card: adventurer ----------------
+TEST 1: Gain 2 cards
+hand count = 9, expected = 7: FAILED
+TEST 2: Check that the new cards are treasures
+num treasures = 6, expected = 5: FAILED
+TEST 3: Check that there is no change to player 2's hand
+other player hand count = 10, expected = 10: PASSED
+other player deck count = 10, expected = 10: PASSED
+TEST 4: Verify no change to victory card piles
+Verifying no change to victory card piles...
+8 estates before == 6 estates after: FAILED
+8 duchies before == 8 duchies after: PASSED
+8 provinces before == 8 provinces after: PASSED
+10 Kingdom card 0 before == 10 kingdom card 0 after: PASSED
+10 Kingdom card 1 before == 10 kingdom card 1 after: PASSED
+10 Kingdom card 2 before == 10 kingdom card 2 after: PASSED
+10 Kingdom card 3 before == 10 kingdom card 3 after: PASSED
+10 Kingdom card 4 before == 10 kingdom card 4 after: PASSED
+10 Kingdom card 5 before == 10 kingdom card 5 after: PASSED
+10 Kingdom card 6 before == 10 kingdom card 6 after: PASSED
+10 Kingdom card 7 before == 10 kingdom card 7 after: PASSED
+10 Kingdom card 8 before == 10 kingdom card 8 after: PASSED
+10 Kingdom card 9 before == 10 kingdom card 9 after: PASSED
+
+ >>>>> adventurer testing complete <<<<<
+
+File 'dominion.c'
+Lines executed:42.83% of 565
+Branches executed:42.93% of 417
+Taken at least once:30.70% of 417
+Calls executed:38.78% of 98
+Creating 'dominion.c.gcov'
+
+cardtest3.c:
+----------------- Testing Card: council_room ----------------
+TEST 1: Gain 4 cards
+hand count = 8, expected = 8: PASSED
+TEST 2: Deck size reduced by 4 cards
+deck count = 1, expected = 1: PASSED
+TEST 3: Check that there is one more card in player 2's hand and 1 less in deck
+other player hand count = 1, expected = 1: PASSED
+other player deck count = 9, expected = 9: PASSED
+TEST 4: Check that player has 1 more buy
+num buys = 2, expected = 2: PASSED
+TEST 5: Verify no change to victory card piles
+Verifying no change to victory card piles...
+8 estates before == 8 estates after: PASSED
+8 duchies before == 8 duchies after: PASSED
+8 provinces before == 8 provinces after: PASSED
+10 Kingdom card 0 before == 10 kingdom card 0 after: PASSED
+10 Kingdom card 1 before == 10 kingdom card 1 after: PASSED
+10 Kingdom card 2 before == 10 kingdom card 2 after: PASSED
+10 Kingdom card 3 before == 10 kingdom card 3 after: PASSED
+10 Kingdom card 4 before == 10 kingdom card 4 after: PASSED
+10 Kingdom card 5 before == 10 kingdom card 5 after: PASSED
+10 Kingdom card 6 before == 10 kingdom card 6 after: PASSED
+10 Kingdom card 7 before == 10 kingdom card 7 after: PASSED
+10 Kingdom card 8 before == 10 kingdom card 8 after: PASSED
+10 Kingdom card 9 before == 10 kingdom card 9 after: PASSED
+
+ >>>>> council_room testing complete <<<<<
+
+File 'dominion.c'
+Lines executed:42.83% of 565
+Branches executed:42.93% of 417
+Taken at least once:30.94% of 417
+Calls executed:38.78% of 98
+Creating 'dominion.c.gcov'
+
+cardtest4.c:
+----------------- Testing Card: remodel ----------------
+TEST 1: test that trashed card is not in hand
+hand count = 5, expected = 3: FAILED
+TEST 2: test that trasshed card didn't go to discard pile
+deck count = 5, expected = 5: PASSED
+TEST 3: Check that there is no change to player 2's hand
+other player hand count = 10, expected = 10: PASSED
+other player deck count = 10, expected = 10: PASSED
+TEST 4: test that you can gain a card costing 2 more than it
+Attempting to gain card that costs 2 more than trashed card: PASSED
+TEST 5: test that you can gain a card costing 3 more than it
+Attempting to gain card that costs 3 more than trashed card: FAILED
+TEST 6: Verify no change to victory card piles
+Verifying no change to victory card piles...
+8 estates before == 8 estates after:     PASSED
+8 duchies before == 8 duchies after:     PASSED
+8 provinces before == 8 provinces after: PASSED
+
+ >>>>> remodel testing complete <<<<<
+
+File 'dominion.c'
+Lines executed:44.96% of 565
+Branches executed:44.84% of 417
+Taken at least once:32.61% of 417
+Calls executed:43.88% of 98
+Creating 'dominion.c.gcov'
+
